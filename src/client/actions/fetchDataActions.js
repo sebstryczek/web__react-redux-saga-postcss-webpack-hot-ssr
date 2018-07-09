@@ -1,23 +1,22 @@
 import * as actions from '../constants/actionTypes';
 import firebase from '../../firebase/wrapper';
 
-const fetchDataRequest = () => {
+export function getDataRequested() {
   return {
-    type: actions.FETCH_DATA_REQUEST
+    type: actions.FETCH_DATA_REQUESTED
   }
 }
 
-const fetchDataSuccess = (data) => {
+export function getDataDone(data) {
   return {
-    type: actions.FETCH_DATA_SUCCESS,
+    type: actions.FETCH_DATA_DONE,
     payload: data
   }
 }
 
-export const fetchData = () => {
-  return dispatch => {
-    //dispatch(fetchDataRequest());
-    return firebase.get('pages')
-      .then( data => dispatch(fetchDataSuccess(data)) )
+export function getDataFailed(error) {
+  return {
+    type: actions.FETCH_DATA_FAILED,
+    payload: error
   }
 }

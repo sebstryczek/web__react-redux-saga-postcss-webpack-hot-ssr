@@ -8,21 +8,23 @@ import Page3 from './Page3';
 import Example from '../components/Example';
 import ExampleStyledComponent from '../components/ExampleStyledComponent';
 
-import { fetchData } from '../actions/fetchDataActions';
+//import { fetchData } from '../actions/fetchDataActions';
+import { getDataRequested } from '../actions/fetchDataActions';
 
 import './App.css';
 
 class App extends React.Component {
-  static fetchData(store) {
-    return store.dispatch(fetchData());
-  }
+  //static fetchData(store) {
+  //  return store.dispatch(fetchData());
+  //}
 
   componentDidMount() {
     this.props.fetchData();
+    //this.props.dispatch(getDataRequested());
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+    console.log(nextProps);
   }
 
   render() {
@@ -46,14 +48,7 @@ class App extends React.Component {
   }
 };
 
-const mapStateToProps = (state) => {
-  return { ...state };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchData: () => dispatch(fetchData())
-  };
-};
+const mapStateToProps = state => ({ data: state.data });
+const mapDispatchToProps = dispatch => ({ fetchData: () => dispatch(getDataRequested()) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

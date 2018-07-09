@@ -5,11 +5,13 @@ import ReactDOM from 'react-dom';
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import configureStore from './store/configureStore';
 import App from './containers/App';
 import firebase from '../firebase/wrapper';
+import configureStore from './store/configureStore';
+import sagas from './sagas';
 
-const store = configureStore();
+const store = configureStore()
+store.runSaga(sagas);
 
 const renderApp = () => ReactDOM.hydrate(
   <AppContainer>
