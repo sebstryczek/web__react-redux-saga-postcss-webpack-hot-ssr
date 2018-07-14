@@ -1,4 +1,4 @@
-import { call, put, takeEvery, fork } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
 import { FETCH_DATA_REQUESTED } from '../constants/actionTypes';
 import { getDataDone, getDataFailed } from '../actions/fetchDataActions';
 import firebase from '../../firebase/wrapper';
@@ -16,9 +16,16 @@ function* fetchData() {
 // on every dispatch
 // run and return result of fetchData generator
 function* fetchDataSaga() {
-  yield takeEvery( FETCH_DATA_REQUESTED, fetchData );
+  yield takeLatest( FETCH_DATA_REQUESTED, fetchData );
 }
 
-export default function* root() {
+export function* rootSaga() {
   yield fork(fetchDataSaga);
+}
+
+export function* ssrRootSaga() {
+  yield all([
+    fork(fetchDataSaga),
+    call(fetchData)
+  ]);
 }

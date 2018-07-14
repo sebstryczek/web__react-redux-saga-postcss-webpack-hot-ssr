@@ -8,16 +8,11 @@ import Page3 from './Page3';
 import Example from '../components/Example';
 import ExampleStyledComponent from '../components/ExampleStyledComponent';
 
-//import { fetchData } from '../actions/fetchDataActions';
 import { getDataRequested } from '../actions/fetchDataActions';
 
 import './App.css';
 
 class App extends React.Component {
-  //static fetchData(store) {
-  //  return store.dispatch(fetchData());
-  //}
-
   componentDidMount() {
     this.props.fetchData();
     //this.props.dispatch(getDataRequested());

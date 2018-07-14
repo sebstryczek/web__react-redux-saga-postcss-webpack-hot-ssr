@@ -10,7 +10,7 @@ import firebase from '../firebase/wrapper';
 import configureStore from './store/configureStore';
 import sagas from './sagas';
 
-const store = configureStore()
+const store = configureStore();
 store.runSaga(sagas);
 
 const renderApp = () => ReactDOM.hydrate(

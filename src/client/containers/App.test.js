@@ -1,10 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
 
-import reducers from '../reducers/fetchDataReducer'
 import App from './App';
 
 import renderer from 'react-test-renderer';
@@ -12,8 +9,7 @@ import configureMockStore from 'redux-mock-store'
 import { configure as enzymeConfigure, mount, shallow } from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
+const mockStore = configureMockStore();
 enzymeConfigure({ adapter: new EnzymeAdapter() });
 
 test('[EXAMPLE TEST] Two plus two is four', () => {

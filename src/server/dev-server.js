@@ -7,6 +7,9 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config.dev';
 import getHtml from './ssr/getHtml';
 
+import configureStore from '../client/store/configureStore';
+import {ssrRootSaga} from '../client/sagas';
+
 import firebase from '../firebase/wrapper';
 firebase.init();
 
@@ -33,12 +36,23 @@ webpackCompiler.hooks.done.tap('CompileSuccessInfo', (stats) => {
   });
 });
 
+
 app.get('*', async (req, res) => {
   const memoryFs = webpackCompiler.outputFileSystem;
   const filePath = path.join(webpackCompiler.outputPath, '_index.html');
   const index = memoryFs.readFileSync(filePath, 'utf8');
-  const html = await getHtml(req, index);
-  res.send(`<!doctype html>${html}`);
+
+  const store = configureStore({});
+
+  store.runSaga(ssrRootSaga).done.then( async () => {
+    const html = await getHtml(req, index, store);
+    res.status(200).send(`<!doctype html>${html}`);
+  }).catch((e) => {
+    console.log(e.message);
+    res.status(500).send(e.message);
+  });
+    
+  store.close();
 });
 
 app.listen(3000, (err) => {
